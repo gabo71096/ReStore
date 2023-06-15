@@ -13,5 +13,5 @@ export default function Header({ changeDarkMode, darkMode }: Props) {
         <Switch checked={darkMode} onChange={changeDarkMode} />
       </Toolbar>
     </AppBar>
-  )
+  );
 }

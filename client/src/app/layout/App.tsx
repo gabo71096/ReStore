@@ -1,28 +1,28 @@
-import { ThemeProvider, createTheme } from '@mui/material';
-import '../../App.css'
-import Catalog from '../../features/catalog/Catalog';
-import Header from './Header';
-import { useState } from 'react';
+import { ThemeProvider, createTheme } from "@mui/material";
+import "../../App.css";
+import Catalog from "../../features/catalog/Catalog";
+import Header from "./Header";
+import { useState } from "react";
 
 function App() {
   function changeDarkMode() {
     setDarkMode(() => {
-      if (localStorage.theme === 'dark') document.documentElement.classList.add('dark');
-      else document.documentElement.classList.remove('dark');
+      if (localStorage.theme === "dark") document.documentElement.classList.add("dark");
+      else document.documentElement.classList.remove("dark");
 
-      localStorage.theme = darkMode ? 'dark' : 'light';
+      localStorage.theme = darkMode ? "dark" : "light";
 
-      return !darkMode
-  })
+      return !darkMode;
+    });
   }
 
   const [darkMode, setDarkMode] = useState(false);
-  const paletteType = darkMode ? 'dark' : 'light';
+  const paletteType = darkMode ? "dark" : "light";
   const theme = createTheme({
     palette: {
-      mode: paletteType
-    }
-  })
+      mode: paletteType,
+    },
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -33,7 +33,7 @@ function App() {
         <Catalog />
       </div>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
