@@ -1,4 +1,4 @@
-import { AppBar, Switch, Toolbar } from "@mui/material";
+import { AppBar, Switch, Toolbar, Typography } from "@mui/material";
 
 interface Props {
   changeDarkMode: () => void;
@@ -7,9 +7,11 @@ interface Props {
 
 export default function Header({ changeDarkMode, darkMode }: Props) {
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ mb: 4 }}>
       <Toolbar>
-        <h1 className="text-2xl">ReStore</h1>
+        <Typography fontSize={"1.5rem"} fontWeight={"bold"}>
+          ReStore
+        </Typography>
         <Switch checked={darkMode} onChange={changeDarkMode} />
       </Toolbar>
     </AppBar>
