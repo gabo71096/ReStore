@@ -475,4 +475,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# App specific
 API/appsettings.json
+API/store.db-shm
+API/store.db-wal
