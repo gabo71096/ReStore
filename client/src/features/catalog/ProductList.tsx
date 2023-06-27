@@ -8,7 +8,8 @@ interface Props {
 
 export default function ProductList({ products }: Props) {
   return (
-    <Grid container spacing={4}>
+    // Maybe use tailwind grid?
+    <Grid container spacing={4} sx={{ mb: 4 }}>
       {products.map((item) => (
         <Grid item xs={3} key={item.id}>
           <ProductCard item={item} />
