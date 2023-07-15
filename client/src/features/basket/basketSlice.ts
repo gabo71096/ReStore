@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { Basket } from "../../app/models/basket";
 import agent from "../../app/api/agent";
 
@@ -34,6 +34,14 @@ export const removeBasketItemAsync = createAsyncThunk<void, { productId: number;
   }
 );
 
+export const fetchBasketAsync = createAsyncThunk<Basket>("basket/fetchBasketAsync", async (_, thunkAPI) => {
+  try {
+    return await agent.Basket.get();
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue({ error: error.data });
+  }
+});
+
 export const basketSlice = createSlice({
   name: "basket",
   initialState,
@@ -41,18 +49,13 @@ export const basketSlice = createSlice({
     setBasket: (state, action) => {
       state.basket = action.payload;
     },
+    clearBasket: (state) => {
+      state.basket = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addBasketItemAsync.pending, (state, action) => {
       state.status = `pendingAddItem${action.meta.arg.productId}`;
-    });
-    builder.addCase(addBasketItemAsync.fulfilled, (state, action) => {
-      state.basket = action.payload;
-      state.status = "idle";
-    });
-    builder.addCase(addBasketItemAsync.rejected, (state, action) => {
-      console.log(action.payload);
-      state.status = "idle";
     });
     builder.addCase(removeBasketItemAsync.pending, (state, action) => {
       const { productId, name } = action.meta.arg;
@@ -70,7 +73,15 @@ export const basketSlice = createSlice({
       console.log(action.payload);
       state.status = "idle";
     });
+    builder.addMatcher(isAnyOf(addBasketItemAsync.fulfilled, fetchBasketAsync.fulfilled), (state, action) => {
+      state.basket = action.payload;
+      state.status = "idle";
+    });
+    builder.addMatcher(isAnyOf(addBasketItemAsync.rejected, fetchBasketAsync.rejected), (state, action) => {
+      console.log(action.payload);
+      state.status = "idle";
+    });
   },
 });
 
-export const { setBasket } = basketSlice.actions;
+export const { setBasket, clearBasket } = basketSlice.actions;
