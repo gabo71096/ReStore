@@ -34,7 +34,12 @@ export default function AddressForm() {
           <AppTextInput control={control} name="country" label="Country" />
         </Grid>
         <Grid item xs={12}>
-          <AppCheckbox control={control} disabled={!formState.isDirty} name="saveAddress" label="Save this as the default address" />
+          <AppCheckbox
+            control={control}
+            disabled={!formState.isDirty}
+            name="saveAddress"
+            label="Save this as the default address"
+          />
         </Grid>
       </Grid>
     </>

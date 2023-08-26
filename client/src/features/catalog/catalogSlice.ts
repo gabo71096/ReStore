@@ -2,17 +2,6 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/too
 import { Product, ProductParams } from "../../app/models/product";
 import agent from "../../app/api/agent";
 import { RootState } from "../../app/store/configureStore";
-import { MetaData } from "../../app/models/pagination";
-
-interface Catalog {
-  productsLoaded: boolean;
-  filters: boolean;
-  status: string;
-  brands: string[];
-  types: string[];
-  productParams: ProductParams;
-  metaData: MetaData | null;
-}
 
 const productsAdapter = createEntityAdapter<Product>();
 
@@ -22,8 +11,8 @@ function getAxiosParams(productParams: ProductParams) {
   params.append("pageSize", productParams.pageSize.toString());
   params.append("orderBy", productParams.orderBy);
   if (productParams.searchTerm) params.append("searchTerm", productParams.searchTerm);
-  if (productParams.brands.length > 0) params.append("brands", productParams.brands.toString());
-  if (productParams.types.length > 0) params.append("types", productParams.types.toString());
+  if (productParams.brands && productParams.brands.length > 0) params.append("brands", productParams.brands.toString());
+  if (productParams.types && productParams.types.length > 0) params.append("types", productParams.types.toString());
   return params;
 }
 
@@ -67,6 +56,7 @@ function initParams() {
     orderBy: "name",
     brands: [],
     types: [],
+    searchTerm: "",
   };
 }
 

@@ -73,7 +73,7 @@ export default function CheckoutPage() {
     if (!stripe || !elements) return;
     try {
       const cardElement = elements.getElement(CardNumberElement);
-      const paymentResult = await stripe.confirmCardPayment(basket?.clientSecret!, {
+      const paymentResult = await stripe.confirmCardPayment(basket?.clientSecret as string, {
         payment_method: {
           card: cardElement!,
           billing_details: {
@@ -91,7 +91,7 @@ export default function CheckoutPage() {
         dispatch(clearBasket());
         setLoading(false);
       } else {
-        setPaymentMessage(paymentResult.error?.message!);
+        setPaymentMessage(paymentResult.error?.message as string);
         setPaymentSucceeded(false);
         setLoading(false);
         setActiveStep(activeStep + 1);

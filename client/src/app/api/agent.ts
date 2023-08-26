@@ -6,7 +6,7 @@ import { store } from "../store/configureStore";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 
-axios.defaults.baseURL = "http://localhost:5002/api/";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -19,7 +19,7 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use(
   async (res) => {
-    await sleep();
+    if (process.env.NODE_ENV === "development") await sleep();
     const pagination = res.headers["pagination"];
     if (pagination) {
       res.data = new PaginatedResponse(res.data, JSON.parse(pagination));
